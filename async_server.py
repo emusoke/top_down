@@ -10,7 +10,6 @@ player_positions = {"1": {"x": 100, "y": 100}, "2": {"x": 200, "y": 200}}
 
 
 async def handler(reader, writer):
-    print("handling")
     try:
         while True:
             data = await reader.read(1024)
@@ -27,15 +26,12 @@ async def handler(reader, writer):
                 send_id = "1"
 
             # update the players position
-            print("updating player ", player_id)
             player_positions[player_id]["x"] = player_pos["x"]
             player_positions[player_id]["y"] = player_pos["y"]
 
             # send the client the position of the opposition
             response_position = player_positions[send_id]
             message = json.dumps(response_position).encode('utf-8')
-
-            print("player_positions", player_positions)
 
             # echo back to client
             writer.write(message)
